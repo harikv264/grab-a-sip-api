@@ -53,7 +53,7 @@ delivery generation (05:00, skips Sundays & holidays).
 | `SPRING_DATASOURCE_USERNAME` | `postgres` | |
 | `SPRING_DATASOURCE_PASSWORD` | `••••••` | your Supabase DB password |
 | `ADMIN_TOKEN` | long random string | protects the admin endpoints (legacy; JWT-admin also works) |
-| `SUPABASE_JWT_SECRET` | from Supabase → API → JWT Settings | verifies Supabase Bearer tokens (roles) |
+| `SUPABASE_URL` | `https://<ref>.supabase.co` | verifies Supabase Bearer tokens via its JWKS (asymmetric signing keys) |
 | `CORS_ALLOWED_ORIGINS` | `https://grab-a-sip.vercel.app` | your site origin(s), comma-separated |
 | `PORT` | `8080` | injected by Render/Railway |
 

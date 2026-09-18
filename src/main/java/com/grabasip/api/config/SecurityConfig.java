@@ -7,13 +7,10 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Auth backbone. Authorization stays open at the HTTP layer (per-endpoint
@@ -37,10 +34,19 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /** Supabase signs access tokens with the project's JWT secret (HS256). */
+    /**
+     * Supabase now signs access tokens with asymmetric JWT signing keys, so we
+     * verify against its public JWKS endpoint. Accepts RS256 and ES256 (Supabase's
+     * default). The JWKS is fetched lazily on first token, so a placeholder URL
+     * won't fail startup.
+     */
     @Bean
-    public JwtDecoder jwtDecoder(@Value("${supabase.jwt-secret}") String secret) {
-        SecretKeySpec key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
+    public JwtDecoder jwtDecoder(@Value("${supabase.jwks-uri}") String jwksUri) {
+        return NimbusJwtDecoder.withJwkSetUri(jwksUri)
+                .jwsAlgorithms(algs -> {
+                    algs.add(SignatureAlgorithm.RS256);
+                    algs.add(SignatureAlgorithm.ES256);
+                })
+                .build();
     }
 }
