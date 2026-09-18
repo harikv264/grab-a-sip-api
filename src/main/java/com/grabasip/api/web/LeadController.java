@@ -34,12 +34,11 @@ import java.util.Map;
 public class LeadController {
 
     private final LeadRepository leads;
-    private final String adminToken;
+    private final com.grabasip.api.security.AdminGuard admin;
 
-    public LeadController(LeadRepository leads,
-                          @Value("${app.admin-token}") String adminToken) {
+    public LeadController(LeadRepository leads, com.grabasip.api.security.AdminGuard admin) {
         this.leads = leads;
-        this.adminToken = adminToken;
+        this.admin = admin;
     }
 
     /** POST /api/leads — record a serviceability check as a lead. */
@@ -86,9 +85,7 @@ public class LeadController {
 
     // ── helpers ──────────────────────────────────────────────────
     private void requireAdmin(String token) {
-        if (adminToken == null || adminToken.isBlank() || !adminToken.equals(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid admin token");
-        }
+        admin.require(token);
     }
 
     private static String trim(String s, int max) {

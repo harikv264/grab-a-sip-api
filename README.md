@@ -12,6 +12,7 @@ Excel (`.xlsx`) **undelivered-areas export**, backed by **Supabase Postgres**.
 | Method | Path | Auth | Purpose |
 | ------ | ---- | ---- | ------- |
 | GET  | `/api/health` | – | Liveness check |
+| GET  | `/api/me` | JWT | Caller's role + linked record (from the Supabase JWT) |
 | GET  | `/api/serviceability/check?q=Gachibowli` | – | `serviceable` / `not_serviceable` / `ask_again` |
 | GET  | `/api/serviceability/areas` | – | Served-locality list (for autocomplete) |
 | POST | `/api/leads` | – | Record a check as a lead |
@@ -51,7 +52,8 @@ delivery generation (05:00, skips Sundays & holidays).
 | `SPRING_DATASOURCE_URL` | `jdbc:postgresql://db.xxxx.supabase.co:5432/postgres` | Supabase Postgres |
 | `SPRING_DATASOURCE_USERNAME` | `postgres` | |
 | `SPRING_DATASOURCE_PASSWORD` | `••••••` | your Supabase DB password |
-| `ADMIN_TOKEN` | long random string | protects the admin endpoints |
+| `ADMIN_TOKEN` | long random string | protects the admin endpoints (legacy; JWT-admin also works) |
+| `SUPABASE_JWT_SECRET` | from Supabase → API → JWT Settings | verifies Supabase Bearer tokens (roles) |
 | `CORS_ALLOWED_ORIGINS` | `https://grab-a-sip.vercel.app` | your site origin(s), comma-separated |
 | `PORT` | `8080` | injected by Render/Railway |
 
