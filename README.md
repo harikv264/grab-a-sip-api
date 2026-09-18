@@ -21,6 +21,13 @@ Excel (`.xlsx`) **undelivered-areas export**, backed by **Supabase Postgres**.
 | GET  | `/api/customers/{id}?token=…` | admin | One customer |
 | POST | `/api/customers?token=…` | admin | Create (validates locality + unique phone) |
 | PUT  | `/api/customers/{id}?token=…` | admin | Update (incl. mark address verified) |
+| GET  | `/api/plans` | – | Plan reference list |
+| GET  | `/api/subscriptions?token=…&status=&customerId=` | admin | List subscriptions |
+| GET  | `/api/subscriptions/{id}?token=…` | admin | One subscription |
+| POST | `/api/subscriptions?token=…` | admin | Create (snapshots plan price) |
+| PUT  | `/api/subscriptions/{id}?token=…` | admin | Update (plan / status / notes) |
+| POST | `/api/subscriptions/{id}/pause?token=…` | admin | Record a pause (≤5 days/month) |
+| GET  | `/api/subscriptions/{id}/pauses?token=…` | admin | Pause history |
 
 `POST /api/leads` body:
 ```json
