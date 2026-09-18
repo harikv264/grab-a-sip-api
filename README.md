@@ -28,6 +28,15 @@ Excel (`.xlsx`) **undelivered-areas export**, backed by **Supabase Postgres**.
 | PUT  | `/api/subscriptions/{id}?token=…` | admin | Update (plan / status / notes) |
 | POST | `/api/subscriptions/{id}/pause?token=…` | admin | Record a pause (≤5 days/month) |
 | GET  | `/api/subscriptions/{id}/pauses?token=…` | admin | Pause history |
+| GET/POST/PUT | `/api/delivery-persons?token=…` | admin | Delivery people |
+| GET/POST/DELETE | `/api/holidays?token=…` | admin | Public holidays |
+| GET  | `/api/deliveries?token=…&date=YYYY-MM-DD` | admin | The day's board |
+| GET  | `/api/deliveries/summary?token=…&date=…` | admin | Day + month counts |
+| POST | `/api/deliveries/generate?token=…&date=…` | admin | Generate the day's deliveries |
+| PUT  | `/api/deliveries/{id}?token=…` | admin | Status / assignee / notes (delivered → verifies address) |
+
+**Scheduled jobs (IST):** monthly pause-counter reset (1st, 00:05) and daily
+delivery generation (05:00, skips Sundays & holidays).
 
 `POST /api/leads` body:
 ```json
