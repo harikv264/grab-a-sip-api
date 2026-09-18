@@ -17,6 +17,10 @@ Excel (`.xlsx`) **undelivered-areas export**, backed by **Supabase Postgres**.
 | POST | `/api/leads` | – | Record a check as a lead |
 | GET  | `/api/leads?token=…&all=1` | admin | List leads (undelivered by default) |
 | GET  | `/api/leads/export?token=…&all=1` | admin | Download `.xlsx` |
+| GET  | `/api/customers?token=…&q=` | admin | List / search customers |
+| GET  | `/api/customers/{id}?token=…` | admin | One customer |
+| POST | `/api/customers?token=…` | admin | Create (validates locality + unique phone) |
+| PUT  | `/api/customers/{id}?token=…` | admin | Update (incl. mark address verified) |
 
 `POST /api/leads` body:
 ```json
