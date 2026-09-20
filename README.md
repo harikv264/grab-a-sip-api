@@ -13,6 +13,10 @@ Excel (`.xlsx`) **undelivered-areas export**, backed by **Supabase Postgres**.
 | ------ | ---- | ---- | ------- |
 | GET  | `/api/health` | – | Liveness check |
 | GET  | `/api/me` | JWT | Caller's role + linked record (from the Supabase JWT) |
+| GET  | `/api/rider/deliveries?date=` · `/stats` | rider JWT | A rider's own deliveries + totals |
+| PUT  | `/api/rider/deliveries/{id}` | rider JWT | Update status of the rider's own delivery |
+| GET  | `/api/customer/profile` · `/subscriptions` · `/deliveries` · `/summary` | customer JWT | A customer's own data |
+| POST | `/api/admin/app-users?token=` | admin | Link an auth user → role + owned record |
 | GET  | `/api/serviceability/check?q=Gachibowli` | – | `serviceable` / `not_serviceable` / `ask_again` |
 | GET  | `/api/serviceability/areas` | – | Served-locality list (for autocomplete) |
 | POST | `/api/leads` | – | Record a check as a lead |
